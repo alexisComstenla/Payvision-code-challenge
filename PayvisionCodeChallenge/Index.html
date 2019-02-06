@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Rendering Transactions</title>
+  <link rel="shortcut icon" href="">
+</head>
+
+<body ng-app='app' ng-controller="transactionController">
+  <div class="container">
+    <div class="row d-flex align-items-center justify-content-end mt-3">
+      <div class="form-group mr-3 mb-0">
+        <select class="form-control select-style" id="typeSelect" ng-options="option.name for option in selectedTypes.availableOptions track by option.id"
+          ng-model="selectedTypes.selectedOption"></select>
+      </div>
+      <div class="form-group mr-3 mb-0">
+        <select class="form-control select-style" id="currencySelect" ng-options="option.name for option in selectedCurrency.availableOptions track by option.id"
+          ng-model="selectedCurrency.selectedOption"></select>
+      </div>
+      <button type="button" class="btn btn-success">Search</button>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <table class="table mt-3">
+          <thead>
+            <tr>
+              <th class="table-header" scope="col">Name</th>
+              <th class="table-header" scope="col">Brand</th>
+              <th class="table-header" scope="col">Last 4 digits</th>
+              <th class="table-header" scope="col">Transaction type</th>
+              <th class="table-header table-content-right" scope="col">Amount</th>
+              <th class="table-header" scope="col">Currency</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="collapsed" data-toggle="collapse" aria-expanded="false" data-target="#detail{{transaction.id}}"
+              id="parent{{transaction.id}}" ng-click="changeStyle(transaction.id)" ng-repeat-start="transaction in transactions | filter: {action: selectedTypes.selectedOption.code , currencyCode: selectedCurrency.selectedOption.code}">
+              <td class="table-content-color">{{transaction.card.holderName}}</td>
+              <td class="table-content-color">{{transaction.brandName}}</td>
+              <td class="table-content-color">XXXX {{transaction.card.lastFourDigits}}</td>
+              <td class="table-content-color capitalize">{{transaction.action}}</td>
+              <td class="table-content-color table-content-right">{{transaction.amount | number:2}}</td>
+              <td class="table-content-color">{{transaction.currencyCode}}</td>
+            </tr>
+            <tr ng-repeat-end="" id="detail{{transaction.id}}" class="collapse">
+              <td colspan="6">
+                <div class="row">
+                  <div class="col-6">
+                    <p><span class="table-header">ID: </span>{{transaction.id}}</p>
+                    <p><span class="table-header">Tracking code: </span>{{transaction.trackingCode}}</p>
+                    <p><span class="table-header">Brand ID: </span>{{transaction.brandId}}</p>
+                  </div>
+                  <div class="col-6">
+                    <p><span class="table-header"> First 6 digits: </span>{{transaction.card.firstSixDigits}} XXXX</p>
+                    <p><span class="table-header"> Expiry month: </span>{{transaction.card.expiryMonth}}</p>
+                    <p><span class="table-header"> Expiry year: </span>{{transaction.card.expiryYear}}</p>
+                  </div>
+                </div>
+              </td>
+              <!-- <td colspan="3">
+                <div>
+                  <p><span class="table-header"> First 6 digits: </span>{{transaction.card.firstSixDigits}} XXXX</p>
+                  <p><span class="table-header"> Expiry month: </span>{{transaction.card.expiryMonth}}</p>
+                  <p><span class="table-header"> Expiry year: </span>{{transaction.card.expiryYear}}</p>
+                </div>
+              </td> -->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <script src="node_modules/angular/angular.min.js"></script>
+  <script src="app/app.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="app/css/style.css">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"></script>
+  <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+</body>
+
+</html>
